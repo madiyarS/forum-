@@ -1,0 +1,39 @@
+<!-- Content template for the homepage -->
+{{define "content"}}
+<!-- Category filter section -->
+<section class="category-filter">
+    <h2>Filter by Category</h2>
+    <div class="category-buttons">
+        {{range .Categories}}
+            <a href="/posts?category={{.Name}}" class="category-button">{{.Name}}</a>
+        {{end}}
+    </div>
+</section>
+<!-- Posts list section -->
+<section class="posts">
+    <h2>All Posts</h2>
+    {{if .Posts}}
+        <div class="post-grid">
+            {{range .Posts}}
+                <!-- Individual post card -->
+                <div class="post-card">
+                    <h3><a href="/post/{{.ID}}">{{.Title}}</a></h3>
+                    <p class="post-meta">By {{.Author}} on {{.CreatedAt}}</p>
+                    <p class="post-content">{{.Content}}</p>
+                    <div class="post-categories">
+                        {{range .Categories}}
+                            <span class="category-tag">{{.Name}}</span>
+                        {{end}}
+                    </div>
+                    <div class="post-actions">
+                        <span>Likes: {{.LikeCount}}</span>
+                        <span>Dislikes: {{.DislikeCount}}</span>
+                    </div>
+                </div>
+            {{end}}
+        </div>
+    {{else}}
+        <p>No posts found. {{if .IsLoggedIn}}<a href="/create-post">Create a new post</a>.{{end}}</p>
+    {{end}}
+</section>
+{{end}}

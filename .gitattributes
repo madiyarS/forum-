@@ -1,0 +1,3 @@
+*.sh eol=lf
+*.mod eol=lf
+*.sum eol=lf

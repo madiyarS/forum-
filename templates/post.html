@@ -1,0 +1,53 @@
+<!-- Content template for viewing a post and its comments -->
+{{define "content"}}
+<section class="post-detail">
+    <h2>{{.Post.Title}}</h2>
+    <div class="post-card">
+        <p class="post-meta">By {{.Post.Author}} on {{.Post.CreatedAt}}</p>
+        <p class="post-content">{{.Post.Content}}</p>
+        <div class="post-categories">
+            {{range .Post.Categories}}
+                <span class="category-tag">{{.Name}}</span>
+            {{end}}
+        </div>
+        <div class="post-actions">
+            <span>Likes: {{.LikeCount}}</span>
+            <span>Dislikes: {{.DislikeCount}}</span>
+            {{if .IsLoggedIn}}
+                <button class="btn btn-small btn-primary" onclick="likePost({{.Post.ID}}, true)" {{if .HasLiked}}disabled="disabled"{{end}}>Like</button>
+                <button class="btn btn-small btn-danger" onclick="likePost({{.Post.ID}}, false)" {{if .HasDisliked}}disabled="disabled"{{end}}>Dislike</button>
+            {{end}}
+        </div>
+    </div>
+    <h3>Comments</h3>
+    {{if .IsLoggedIn}}
+        <!-- Comment form -->
+        <form id="comment-form" method="POST" action="/post/{{.Post.ID}}/comment" class="comment-form" onsubmit="return validateComment()">
+            <input type="hidden" name="post_id" value="{{.Post.ID}}">
+            <div class="form-group">
+                <textarea id="comment-content" name="content" placeholder="Write a comment..." rows="3" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Comment</button>
+        </form>
+    {{end}}
+    <!-- Comments list -->
+    <div class="comments">
+        {{range .Comments}}
+            <div class="comment-card">
+                <p class="comment-meta">By {{.Author}} on {{.CreatedAt}}</p>
+                <p class="comment-content">{{.Content}}</p>
+                <div class="comment-actions">
+                    <span>Likes: {{.LikeCount}}</span>
+                    <span>Dislikes: {{.DislikeCount}}</span>
+                    {{if $.IsLoggedIn}}
+                        <button class="btn btn-small btn-primary" onclick="likeComment({{.ID}}, true)" {{if .HasLiked}}disabled="disabled"{{end}}>Like</button>
+                        <button class="btn btn-small btn-danger" onclick="likeComment({{.ID}}, false)" {{if .HasDisliked}}disabled="disabled"{{end}}>Dislike</button>
+                    {{end}}
+                </div>
+            </div>
+        {{else}}
+            <p>No comments yet.</p>
+        {{end}}
+    </div>
+</section>
+{{end}}

@@ -1,0 +1,28 @@
+<!-- Content template for user profile (My Posts/Liked Posts) -->
+{{define "content"}}
+<section class="profile">
+    <h2>{{.Title}}</h2>
+    {{if .Posts}}
+        <div class="post-grid">
+            {{range .Posts}}
+                <div class="post-card">
+                    <h3><a href="/post/{{.ID}}">{{.Title}}</a></h3>
+                    <p class="post-meta">By {{.Author}} on {{.CreatedAt}}</p>
+                    <p class="post-content">{{.Content}}</p>
+                    <div class="post-categories">
+                        {{range .Categories}}
+                            <span class="category-tag">{{.Name}}</span>
+                        {{end}}
+                    </div>
+                    <div class="post-actions">
+                        <span>Likes: {{.LikeCount}}</span>
+                        <span>Dislikes: {{.DislikeCount}}</span>
+                    </div>
+                </div>
+            {{end}}
+        </div>
+    {{else}}
+        <p>No posts found.</p>
+    {{end}}
+</section>
+{{end}}

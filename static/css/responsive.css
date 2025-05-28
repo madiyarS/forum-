@@ -1,0 +1,74 @@
+/* Responsive styles for smaller screens */
+
+/* Tablets and below */
+@media (max-width: 768px) {
+    /* Adjust container padding */
+    .container {
+        padding: 0 15px;
+    }
+
+    /* Stack navigation links vertically */
+    nav {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* Reduce post grid columns */
+    .post-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Center form container */
+    .form-container {
+        padding: 0 10px;
+    }
+
+    /* Adjust button sizes */
+    .btn {
+        padding: 8px 16px;
+    }
+}
+
+/* Mobile phones */
+@media (max-width: 480px) {
+    /* Reduce font sizes */
+    body {
+        font-size: 14px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    h3 {
+        font-size: 16px;
+    }
+
+    /* Adjust form inputs */
+    .form-group input,
+    .form-group textarea {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    /* Stack category buttons */
+    .category-buttons {
+        flex-direction: column;
+    }
+
+    .category-button {
+        width: 100%;
+        text-align: center;
+    }
+
+    /* Adjust post card padding */
+    .post-card,
+    .comment-card {
+        padding: 15px;
+    }
+}
