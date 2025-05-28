@@ -6,20 +6,23 @@ import (
 	"strconv"
 	"strings"
 
+	"forum/internal/usecases/likes"
 	"forum/internal/usecases/posts"
 )
 
 // PostHandler handles HTTP requests for posts
 type PostHandler struct {
-	service *posts.Service
-	tmpl    *template.Template
+	service     *posts.Service
+	likeService *likes.Service
+	tmpl        *template.Template
 }
 
 // NewPostHandler creates a new post handler
-func NewPostHandler(service *posts.Service, tmpl *template.Template) *PostHandler {
+func NewPostHandler(service *posts.Service, likeService *likes.Service, tmpl *template.Template) *PostHandler {
 	return &PostHandler{
-		service: service,
-		tmpl:    tmpl,
+		service:     service,
+		likeService: likeService,
+		tmpl:        tmpl,
 	}
 }
 
@@ -37,11 +40,12 @@ func (h *PostHandler) List(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	isLoggedIn := r.Context().Value("isLoggedIn") == true
 	h.tmpl.ExecuteTemplate(w, "index.html", map[string]interface{}{
 		"Title":      "Home",
 		"Posts":      posts,
 		"Categories": categories,
-		"IsLoggedIn": r.Context().Value("isLoggedIn") == true,
+		"IsLoggedIn": isLoggedIn,
 	})
 }
 
@@ -101,15 +105,28 @@ func (h *PostHandler) Get(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	isLoggedIn := r.Context().Value("isLoggedIn") == true
+	hasLiked := false
+	hasDisliked := false
+	if isLoggedIn {
+		userID := r.Context().Value("userID").(int)
+		// Check if user liked/disliked the post
+		like, err := h.likeService.GetUserLike(userID, &postID, nil)
+		if err == nil && like != nil {
+			hasLiked = like.IsLike
+			hasDisliked = !like.IsLike
+		}
+	}
+
 	h.tmpl.ExecuteTemplate(w, "post.html", map[string]interface{}{
 		"Title":        "Post",
 		"Post":         post,
 		"Comments":     post.Comments,
 		"LikeCount":    post.LikeCount,
 		"DislikeCount": post.DislikeCount,
-		"IsLoggedIn":   r.Context().Value("isLoggedIn") == true,
-		"HasLiked":     r.Context().Value("hasLiked") == true,
-		"HasDisliked":  r.Context().Value("hasDisliked") == true,
+		"IsLoggedIn":   isLoggedIn,
+		"HasLiked":     hasLiked,
+		"HasDisliked":  hasDisliked,
 	})
 }
 
@@ -139,10 +156,11 @@ func (h *PostHandler) Filter(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	isLoggedIn := r.Context().Value("isLoggedIn") == true
 	h.tmpl.ExecuteTemplate(w, "index.html", map[string]interface{}{
 		"Title":      "Filtered Posts",
 		"Posts":      posts,
 		"Categories": categories,
-		"IsLoggedIn": r.Context().Value("isLoggedIn") == true,
+		"IsLoggedIn": isLoggedIn,
 	})
 }

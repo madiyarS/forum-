@@ -46,24 +46,27 @@ func main() {
 
 	// Initialize handlers
 	authHandler := handlers.NewAuthHandler(authService, tmpl)
-	postHandler := handlers.NewPostHandler(postService, tmpl)
+	postHandler := handlers.NewPostHandler(postService, likeService, tmpl)
 	commentHandler := handlers.NewCommentHandler(commentService)
 	likeHandler := handlers.NewLikeHandler(likeService)
 
 	// Set up HTTP routes
 	mux := http.NewServeMux()
+	// Read-only routes (no auth required)
 	mux.HandleFunc("/", middleware.LoggingMiddleware(postHandler.List))
+	mux.HandleFunc("/post/", middleware.LoggingMiddleware(postHandler.Get))
+	mux.HandleFunc("/posts", middleware.LoggingMiddleware(postHandler.Filter))
+	// Auth-required routes
 	mux.HandleFunc("/register", middleware.LoggingMiddleware(authHandler.Register))
 	mux.HandleFunc("/login", middleware.LoggingMiddleware(authHandler.Login))
-	mux.HandleFunc("/logout", middleware.LoggingMiddleware(authHandler.Logout))
+	mux.HandleFunc("/logout", middleware.LoggingMiddleware(middleware.AuthMiddleware(authService)(http.HandlerFunc(authHandler.Logout))))
 	mux.HandleFunc("/create-post", middleware.LoggingMiddleware(middleware.AuthMiddleware(authService)(http.HandlerFunc(postHandler.Create))))
-	mux.HandleFunc("/post/", middleware.LoggingMiddleware(postHandler.Get))
 	mux.HandleFunc("/post/like", middleware.LoggingMiddleware(middleware.AuthMiddleware(authService)(http.HandlerFunc(likeHandler.LikePost))))
 	mux.HandleFunc("/post/comment", middleware.LoggingMiddleware(middleware.AuthMiddleware(authService)(http.HandlerFunc(commentHandler.Create))))
 	mux.HandleFunc("/comment/like", middleware.LoggingMiddleware(middleware.AuthMiddleware(authService)(http.HandlerFunc(likeHandler.LikeComment))))
-	mux.HandleFunc("/posts", middleware.LoggingMiddleware(postHandler.Filter))
 	mux.HandleFunc("/my-posts", middleware.LoggingMiddleware(middleware.AuthMiddleware(authService)(http.HandlerFunc(postHandler.Filter))))
 	mux.HandleFunc("/liked-posts", middleware.LoggingMiddleware(middleware.AuthMiddleware(authService)(http.HandlerFunc(postHandler.Filter))))
+	// Static assets
 	mux.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 
 	log.Println("Server starting on :8080")

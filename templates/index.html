@@ -29,7 +29,7 @@
             {{end}}
         </div>
     {{else}}
-        <p>No posts found. {{if .IsLoggedIn}}<a href="/create-post">Create a new post</a>.{{end}}</p>
+        <p>No posts found. {{if .IsLoggedIn}}<a href="/create-post">Create a new post</a>.{{else}}Please <a href="/login">log in</a> to create a post.{{end}}</p>
     {{end}}
 </section>
 {{end}}

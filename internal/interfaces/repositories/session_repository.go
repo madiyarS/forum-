@@ -1,6 +1,9 @@
 package repositories
 
-import "forum/internal/entities"
+import (
+	"forum/internal/entities"
+	"time"
+)
 
 // SessionRepository defines methods for session persistence
 type SessionRepository interface {

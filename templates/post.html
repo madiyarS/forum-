@@ -13,8 +13,10 @@
             <span>Likes: {{.LikeCount}}</span>
             <span>Dislikes: {{.DislikeCount}}</span>
             {{if .IsLoggedIn}}
-                <button class="btn btn-small btn-primary" onclick="likePost({{.Post.ID}}, true)" {{if .HasLiked}}disabled="disabled"{{end}}>Like</button>
-                <button class="btn btn-small btn-danger" onclick="likePost({{.Post.ID}}, false)" {{if .HasDisliked}}disabled="disabled"{{end}}>Dislike</button>
+                <button class="btn btn-small btn-primary" onclick="likePost('{{.Post.ID}}', true)" {{if .HasLiked}}disabled="disabled"{{end}}>Like</button>
+                <button class="btn btn-small btn-danger" onclick="likePost('{{.Post.ID}}', false)" {{if .HasDisliked}}disabled="disabled"{{end}}>Dislike</button>
+            {{else}}
+                <p><a href="/login">Log in</a> to like or dislike this post.</p>
             {{end}}
         </div>
     </div>
@@ -27,6 +29,8 @@
             </div>
             <button type="submit" class="btn btn-primary">Add Comment</button>
         </form>
+    {{else}}
+        <p><a href="/login">Log in</a> to add a comment.</p>
     {{end}}
     <div class="comments">
         {{range .Comments}}
@@ -37,8 +41,8 @@
                     <span>Likes: {{.LikeCount}}</span>
                     <span>Dislikes: {{.DislikeCount}}</span>
                     {{if $.IsLoggedIn}}
-                        <button class="btn btn-small btn-primary" onclick="likeComment({{.ID}}, true)" {{if .HasLiked}}disabled="disabled"{{end}}>Like</button>
-                        <button class="btn btn-small btn-danger" onclick="likeComment({{.ID}}, false)" {{if .HasDisliked}}disabled="disabled"{{end}}>Dislike</button>
+                        <button class="btn btn-small btn-primary" onclick="likeComment('{{.ID}}', true)" {{if .HasLiked}}disabled="disabled"{{end}}>Like</button>
+                        <button class="btn btn-small btn-danger" onclick="likeComment('{{.ID}}', false)" {{if .HasDisliked}}disabled="disabled"{{end}}>Dislike</button>
                     {{end}}
                 </div>
             </div>
