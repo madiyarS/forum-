@@ -1,4 +1,3 @@
-<!-- Content template for viewing a post and its comments -->
 {{define "content"}}
 <section class="post-detail">
     <h2>{{.Post.Title}}</h2>
@@ -21,7 +20,6 @@
     </div>
     <h3>Comments</h3>
     {{if .IsLoggedIn}}
-        <!-- Comment form -->
         <form id="comment-form" method="POST" action="/post/{{.Post.ID}}/comment" class="comment-form" onsubmit="return validateComment()">
             <input type="hidden" name="post_id" value="{{.Post.ID}}">
             <div class="form-group">
@@ -30,7 +28,6 @@
             <button type="submit" class="btn btn-primary">Add Comment</button>
         </form>
     {{end}}
-    <!-- Comments list -->
     <div class="comments">
         {{range .Comments}}
             <div class="comment-card">

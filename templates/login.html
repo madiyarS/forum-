@@ -1,10 +1,7 @@
-<!-- Content template for the login page -->
 {{define "content"}}
 <section class="form-container">
     <h2>Login</h2>
-    <!-- Error message display area -->
     <div id="error-message" class="error-message" style="display: none;"></div>
-    <!-- Login form -->
     <form id="login-form" method="POST" action="/login" onsubmit="return validateLogin()">
         <div class="form-group">
             <label for="email">Email</label>

@@ -8,7 +8,7 @@ function likePost(postID, isLike) {
     formData.append('is_like', isLike);
 
     // Send POST request to backend
-    fetch(`/post/${postID}/${isLike ? 'like' : 'dislike'}`, {
+    fetch(`/post/like`, {
         method: 'POST',
         body: formData
     })
@@ -34,7 +34,7 @@ function likeComment(commentID, isLike) {
     formData.append('is_like', isLike);
 
     // Send POST request to backend
-    fetch(`/comment/${commentID}/${isLike ? 'like' : 'dislike'}`, {
+    fetch(`/comment/like`, {
         method: 'POST',
         body: formData
     })
@@ -52,9 +52,8 @@ function likeComment(commentID, isLike) {
     });
 }
 
-// Show/hide elements based on login status (example for dynamic UI)
+// Show/hide elements based on login status
 document.addEventListener('DOMContentLoaded', () => {
-    // Example: Hide create-post link if not logged in
     const isLoggedIn = document.querySelector('body').dataset.loggedIn === 'true';
     const createPostLink = document.querySelector('a[href="/create-post"]');
     if (createPostLink && !isLoggedIn) {

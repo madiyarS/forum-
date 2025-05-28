@@ -1,6 +1,4 @@
-<!-- Content template for the homepage -->
 {{define "content"}}
-<!-- Category filter section -->
 <section class="category-filter">
     <h2>Filter by Category</h2>
     <div class="category-buttons">
@@ -9,13 +7,11 @@
         {{end}}
     </div>
 </section>
-<!-- Posts list section -->
 <section class="posts">
     <h2>All Posts</h2>
     {{if .Posts}}
         <div class="post-grid">
             {{range .Posts}}
-                <!-- Individual post card -->
                 <div class="post-card">
                     <h3><a href="/post/{{.ID}}">{{.Title}}</a></h3>
                     <p class="post-meta">By {{.Author}} on {{.CreatedAt}}</p>

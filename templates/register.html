@@ -1,10 +1,7 @@
-<!-- Content template for the registration page -->
 {{define "content"}}
 <section class="form-container">
     <h2>Register</h2>
-    <!-- Error message display area -->
     <div id="error-message" class="error-message" style="display: none;"></div>
-    <!-- Registration form -->
     <form id="register-form" method="POST" action="/register" onsubmit="return validateRegister()">
         <div class="form-group">
             <label for="username">Username</label>

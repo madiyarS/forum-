@@ -1,10 +1,7 @@
-<!-- Content template for creating a new post -->
 {{define "content"}}
 <section class="form-container">
     <h2>Create New Post</h2>
-    <!-- Error message display area -->
     <div id="error-message" class="error-message" style="display: none;"></div>
-    <!-- Post creation form -->
     <form id="post-form" method="POST" action="/create-post" onsubmit="return validatePost()">
         <div class="form-group">
             <label for="title">Title</label>
@@ -29,7 +26,6 @@
             <a href="/" class="btn btn-secondary">Cancel</a>
         </div>
     </form>
-    <!-- Preview area -->
     <div id="preview" class="preview" style="display: none;">
         <h3>Preview</h3>
         <div id="preview-title"></div>

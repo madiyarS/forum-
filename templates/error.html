@@ -1,0 +1,10 @@
+<!-- Content template for error pages -->
+{{define "content"}}
+<section class="form-container">
+    <h2>Error {{.Status}}</h2>
+    <div class="error-message">
+        <p>{{.Message}}</p>
+    </div>
+    <a href="/" class="btn btn-primary">Back to Home</a>
+</section>
+{{end}}

@@ -1,33 +1,25 @@
-<!-- Base template providing common layout for all pages -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Meta tags for character encoding and responsive viewport -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Page title with dynamic content from Go backend -->
     <title>Forum - {{.Title}}</title>
-    <!-- Link to main and responsive CSS files -->
     <link rel="stylesheet" href="/static/css/main.css">
     <link rel="stylesheet" href="/static/css/responsive.css">
 </head>
 <body>
-    <!-- Header with navigation -->
     <header>
         <div class="container">
             <nav>
-                <!-- Site logo and home link -->
                 <a href="/" class="logo">Forum</a>
                 <ul class="nav-links">
                     <li><a href="/">Home</a></li>
                     {{if .IsLoggedIn}}
-                        <!-- Links for logged-in users -->
                         <li><a href="/create-post">New Post</a></li>
                         <li><a href="/my-posts">My Posts</a></li>
                         <li><a href="/liked-posts">Liked Posts</a></li>
                         <li><a href="/logout">Logout</a></li>
                     {{else}}
-                        <!-- Links for guests -->
                         <li><a href="/login">Login</a></li>
                         <li><a href="/register">Register</a></li>
                     {{end}}
@@ -35,17 +27,14 @@
             </nav>
         </div>
     </header>
-    <!-- Main content area where page-specific content is inserted -->
     <main class="container">
         {{template "content" .}}
     </main>
-    <!-- Footer with basic info -->
     <footer>
         <div class="container">
             <p>© 2025 Forum. All rights reserved.</p>
         </div>
     </footer>
-    <!-- JavaScript files for interactivity -->
     <script src="/static/js/main.js"></script>
     <script src="/static/js/forms.js"></script>
 </body>
